@@ -2,10 +2,7 @@ package sql;
 
 import org.sqlite.SQLiteConfig;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  * Created by Lloyd on 24/02/2016.

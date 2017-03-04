@@ -72,21 +72,27 @@ public class CSVImport {
 
     //creates a new db for the specified flightData and loads unzipped log files into the flightData
     public void loadFlightData(FlightData flightData, File loadedFiles) throws Exception {
-        ProcessBuilder processBuilder = returnProcessBuilder(flightData);
+        File existingFile = new File("_data/" + flightData.getName() + ".db");
 
-        processBuilder.redirectErrorStream(true);
+        if (!existingFile.exists()) {
 
-        Process proc = processBuilder.start();
+            ProcessBuilder processBuilder = returnProcessBuilder(flightData);
 
-        System.out.println("Connected");
+            processBuilder.redirectErrorStream(true);
 
-        //refer to the method in storageModel
-        executeOnSqlite(proc, loadedFiles, flightData.getName());
+            Process proc = processBuilder.start();
 
-        printSqliteOutput(proc);
+            System.out.println("Connected");
 
-        proc.destroy();
+            //refer to the method in storageModel
+            executeOnSqlite(proc, loadedFiles, flightData.getName());
 
+            printSqliteOutput(proc);
+
+            proc.destroy();
+        }else{
+            System.out.println("Skipped as file already exists");
+        }
     }
 
     public void executeOnSqlite(Process proc, File file, String title) throws IOException {
